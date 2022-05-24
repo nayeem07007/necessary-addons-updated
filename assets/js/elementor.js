@@ -20,8 +20,8 @@
                  const displaySelector = $(this).attr('href');
                  $(this).parent('li').addClass('active');
                  $(this).parent('li').siblings().removeClass('active');
-                 $(displaySelector).fadeIn();
-                 $(displaySelector).siblings().fadeOut();;
+                 $(displaySelector).slideDown();('fast');
+                 $(displaySelector).siblings().slideUp();;
              });
         },
     };

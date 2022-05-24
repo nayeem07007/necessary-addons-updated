@@ -185,20 +185,19 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 						'title' => esc_html__( 'Start', 'elementor' ),
 						'icon' => 'eicon-h-align-left',
 					],
-					'center' => [
+					'justify-content-center' => [
 						'title' => esc_html__( 'Center', 'elementor' ),
 						'icon' => 'eicon-h-align-center',
 					],
-					'end' => [
+					'justify-content-end' => [
 						'title' => esc_html__( 'End', 'elementor' ),
 						'icon' => 'eicon-h-align-right',
 					],
-					'stretch' => [
+					'justify-content-between' => [
 						'title' => esc_html__( 'Justified', 'elementor' ),
 						'icon' => 'eicon-h-align-stretch',
 					],
 				],
-				'prefix_class' => 'elementor-tabs-alignment-',
 				'condition' => [
 					'type' => 'horizontal',
 				],
@@ -283,18 +282,27 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .elementor-tab-title, {{WRAPPER}} .elementor-tab-title:before, {{WRAPPER}} .elementor-tab-title:after, {{WRAPPER}} .elementor-tab-content, {{WRAPPER}} .elementor-tabs-content-wrapper' => 'border-width: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .na-tab-nav li a' => 'border: {{SIZE}}{{UNIT}} solid;',
 				],
 			]
 		);
 
+		$this->start_controls_tabs(
+			'style_tabs_na_tabs'
+		);
+		$this->start_controls_tab(
+			'na_tabs_style_normal_tab',
+			[
+				'label' => esc_html__( 'Normal', 'plugin-name' ),
+			]
+		);
 		$this->add_control(
 			'border_color',
 			[
 				'label' => esc_html__( 'Border Color', 'elementor' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .elementor-tab-mobile-title, {{WRAPPER}} .elementor-tab-desktop-title.elementor-active, {{WRAPPER}} .elementor-tab-title:before, {{WRAPPER}} .elementor-tab-title:after, {{WRAPPER}} .elementor-tab-content, {{WRAPPER}} .elementor-tabs-content-wrapper' => 'border-color: {{VALUE}};',
+					'{{WRAPPER}} .na-tab-nav li a' => 'border-color: {{VALUE}};',
 				],
 			]
 		);
@@ -305,12 +313,10 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 				'label' => esc_html__( 'Background Color', 'elementor' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .elementor-tab-desktop-title.elementor-active' => 'background-color: {{VALUE}};',
-					'{{WRAPPER}} .elementor-tabs-content-wrapper' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .na-tab-nav li a' => 'background-color: {{VALUE}};',
 				],
 			]
 		);
-
 		$this->add_control(
 			'heading_title',
 			[
@@ -326,25 +332,10 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 				'label' => esc_html__( 'Color', 'elementor' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .elementor-tab-title, {{WRAPPER}} .elementor-tab-title a' => 'color: {{VALUE}}',
+					'{{WRAPPER}} .na-tab-nav li a' => 'color: {{VALUE}}',
 				],
 				'global' => [
 					'default' => Global_Colors::COLOR_PRIMARY,
-				],
-			]
-		);
-
-		$this->add_control(
-			'tab_active_color',
-			[
-				'label' => esc_html__( 'Active Color', 'elementor' ),
-				'type' => \Elementor\Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .elementor-tab-title.elementor-active,
-					 {{WRAPPER}} .elementor-tab-title.elementor-active a' => 'color: {{VALUE}}',
-				],
-				'global' => [
-					'default' => Global_Colors::COLOR_ACCENT,
 				],
 			]
 		);
@@ -353,7 +344,7 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 			\Elementor\Group_Control_Typography::get_type(),
 			[
 				'name' => 'tab_typography',
-				'selector' => '{{WRAPPER}} .elementor-tab-title',
+				'selector' => '{{WRAPPER}} .na-tab-nav li a',
 				'global' => [
 					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
 				],
@@ -364,7 +355,7 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 			\Elementor\Group_Control_Text_Stroke::get_type(),
 			[
 				'name' => 'text_stroke',
-				'selector' => '{{WRAPPER}} .elementor-tab-title',
+				'selector' => '{{WRAPPER}} .na-tab-nav li a',
 			]
 		);
 
@@ -372,9 +363,95 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 			\Elementor\Group_Control_Text_Shadow::get_type(),
 			[
 				'name' => 'title_shadow',
-				'selector' => '{{WRAPPER}} .elementor-tab-title',
+				'selector' => '{{WRAPPER}} .na-tab-nav li a',
 			]
 		);
+		$this->end_controls_tab();
+		$this->start_controls_tab(
+			'na_tabs_style_hover_tab',
+			[
+				'label' => esc_html__( 'Hover', 'plugin-name' ),
+			]
+		);
+		$this->add_control(
+			'hover_border_color',
+			[
+				'label' => esc_html__( 'Border Color', 'elementor' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .na-tab-nav li:hover > a' => 'border-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'hover_background_color',
+			[
+				'label' => esc_html__( 'Background Color', 'elementor' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .na-tab-nav li:hover > a' => 'background-color: {{VALUE}};',
+				],
+			]
+		);
+		$this->add_control(
+			'hover_tab_color',
+			[
+				'label' => esc_html__( 'Title Color', 'elementor' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .na-tab-nav li:hover a' => 'color: {{VALUE}}',
+				],
+				'global' => [
+					'default' => Global_Colors::COLOR_PRIMARY,
+				],
+			]
+		);
+		$this->end_controls_tab();
+		$this->start_controls_tab(
+			'na_tabs_style_active_tab',
+			[
+				'label' => esc_html__( 'Active', 'plugin-name' ),
+			]
+		);
+		$this->add_control(
+			'active_border_color',
+			[
+				'label' => esc_html__( 'Border Color', 'elementor' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .na-tab-nav li.active > a' => 'border-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'active_background_color',
+			[
+				'label' => esc_html__( 'Background Color', 'elementor' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .na-tab-nav li.active > a' => 'background-color: {{VALUE}};',
+				],
+			]
+		);
+		$this->add_control(
+			'active_tab_color',
+			[
+				'label' => esc_html__( 'Title Color', 'elementor' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .na-tab-nav li.active > a' => 'color: {{VALUE}}',
+				],
+				'global' => [
+					'default' => Global_Colors::COLOR_PRIMARY,
+				],
+			]
+		);
+		$this->end_controls_tab();
+		$this->end_controls_tabs();
+
+		
 
 		$this->add_control(
 			'title_align',
@@ -459,11 +536,12 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 	 */
 	protected function render() {
 		$tabs = $this->get_settings_for_display( 'tabs' );
+		$settings = $this->get_settings_for_display();
 		if(empty($tabs)) return; 
 		?>
 		  <div class="d-flex na-tab-nav-wrapper flex-column">
 			  <div class="na-tab-nav">
-				 <ul class="list-unstyled d-flex justify-content-between">
+				 <ul class="list-unstyled d-flex <?php echo esc_attr($settings['tabs_align_horizontal']); ?>">
 					 <?php foreach($tabs as $key=>$tab_list){ 
 						  $get_active_class = ($key == 0 ) ? 'active' : '';
 						 ?>
@@ -476,7 +554,7 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 				 	 $get_active_class_con = ($key == 0 ) ? 'active' : ''; 
 				  ?>
 						 <div class="tab-content <?php echo esc_attr($get_active_class_con)?>" role="tabpanel" id="list-<?php echo esc_attr($tab_list['_id'])?>">
-						 <?php $this->print_text_editor( $tab_list['tab_content'] ); ?>
+						 <p> <?php $this->print_text_editor( $tab_list['tab_content'] ); ?></p>
 						 <?php 
 						  if($tab_list['select_template'] != ''){
 							  $content = \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( $tab_list['select_template'] );

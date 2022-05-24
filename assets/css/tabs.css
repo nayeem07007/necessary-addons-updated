@@ -1,6 +1,9 @@
-.na-tab-nav-wrapper .na-tab-content .tab-content{
-    display: none;
+.na-tab-nav-wrapper .na-tab-content .tab-content{ 
+  display: none;
 }
 .na-tab-nav-wrapper .na-tab-content .tab-content.active{
-    display: block;
+     display: block;
+}
+.na-tab-nav-wrapper .na-tab-content .tab-content p{
+    margin: 0;
 }
