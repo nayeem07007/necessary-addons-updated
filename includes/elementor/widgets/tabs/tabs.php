@@ -243,47 +243,34 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
 			]
 		);
-
-		$this->add_control(
-			'navigation_width',
+        $this->add_responsive_control(
+			'tab_nav_margin',
 			[
-				'label' => esc_html__( 'Navigation Width', 'elementor' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'default' => [
-					'unit' => '%',
-				],
-				'range' => [
-					'%' => [
-						'min' => 10,
-						'max' => 50,
-					],
-				],
+				'label' => esc_html__( 'Margin', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
 				'selectors' => [
-					'{{WRAPPER}} .elementor-tabs-wrapper' => 'width: {{SIZE}}{{UNIT}}',
-				],
-				'condition' => [
-					'type' => 'vertical',
+					'{{WRAPPER}} .na-tab-nav li' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			]
 		);
-
-		$this->add_control(
-			'border_width',
+		$this->add_responsive_control(
+			'tab_nav_padding',
 			[
-				'label' => esc_html__( 'Border Width', 'elementor' ),
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'default' => [
-					'size' => 1,
-				],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 10,
-					],
-				],
+				'label' => esc_html__( 'Padding', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
 				'selectors' => [
-					'{{WRAPPER}} .na-tab-nav li a' => 'border: {{SIZE}}{{UNIT}} solid;',
+					'{{WRAPPER}} .na-tab-nav li a' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'tabs_nav_border_control',
+				'label' => esc_html__( 'Border', 'plugin-name' ),
+				'selector' => '{{WRAPPER}} .na-tab-nav li a',
 			]
 		);
 
@@ -496,7 +483,7 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 				'label' => esc_html__( 'Color', 'elementor' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .elementor-tab-content' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .na-tab-content > p' => 'color: {{VALUE}};',
 				],
 				'global' => [
 					'default' => Global_Colors::COLOR_TEXT,
@@ -508,7 +495,7 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 			\Elementor\Group_Control_Typography::get_type(),
 			[
 				'name' => 'content_typography',
-				'selector' => '{{WRAPPER}} .elementor-tab-content',
+				'selector' => '{{WRAPPER}} .na-tab-content > p',
 				'global' => [
 					'default' => Global_Typography::TYPOGRAPHY_TEXT,
 				],
@@ -519,7 +506,38 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 			\Elementor\Group_Control_Text_Shadow::get_type(),
 			[
 				'name' => 'content_shadow',
-				'selector' => '{{WRAPPER}} .elementor-tab-content',
+				'selector' => '{{WRAPPER}} .na-tab-content',
+			]
+		);
+
+		$this->add_responsive_control(
+			'tab_content_margin',
+			[
+				'label' => esc_html__( 'Margin', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors' => [
+					'{{WRAPPER}} .na-tab-content' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+		$this->add_responsive_control(
+			'tab_content_padding',
+			[
+				'label' => esc_html__( 'Padding', 'plugin-name' ),
+				'type' => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors' => [
+					'{{WRAPPER}} .na-tab-content' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'tabs_content_border',
+				'label' => esc_html__( 'Border', 'plugin-name' ),
+				'selector' => '{{WRAPPER}} .na-tab-content',
 			]
 		);
 
@@ -545,7 +563,9 @@ class Widget_Tabs extends \Elementor\Widget_Base {
 					 <?php foreach($tabs as $key=>$tab_list){ 
 						  $get_active_class = ($key == 0 ) ? 'active' : '';
 						 ?>
-						 <li role="tablist" class="<?php echo esc_attr($get_active_class); ?>"><a href="#list-<?php echo esc_attr($tab_list['_id'])?>"><?php echo na_return($tab_list['tab_title']) ?> </a></li>
+						 <li role="tablist" class="<?php echo esc_attr($get_active_class); ?>">
+						 <a href="#list-<?php echo esc_attr($tab_list['_id'])?>" class="d-block"><?php echo na_return($tab_list['tab_title']) ?> 
+						</a></li>
 					 <?php } ?>
 				 </ul>
 			  </div>
